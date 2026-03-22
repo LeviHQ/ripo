@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Search, Plus, Minus, Trash2, Receipt, CreditCard, Smartphone, Banknote } from "lucide-react";
-import { menuItems, categories } from "@/data/menuData";
+import { categories } from "@/data/menuData";
 import { useApp } from "@/contexts/AppContext";
 import { InvoiceModal } from "./InvoiceModal";
 import type { Order } from "@/data/menuData";
