@@ -1,21 +1,22 @@
 import { Link } from "react-router-dom";
 import {
   Flame, ShoppingCart, BarChart3, Users, Zap, Shield, ChevronRight,
-  UtensilsCrossed, Smartphone, CreditCard, ArrowRight, Star
+  UtensilsCrossed, Smartphone, CreditCard, ArrowRight, Star, Clock,
+  Receipt, Settings, TrendingUp, CheckCircle2, Monitor
 } from "lucide-react";
 
 const features = [
   { icon: ShoppingCart, title: "Lightning-Fast Billing", desc: "Add items with one tap, calculate GST automatically, checkout in seconds.", color: "text-vyellow" },
   { icon: BarChart3, title: "Real-Time Analytics", desc: "Track revenue, top items, and trends with live dashboards and charts.", color: "text-vblue" },
   { icon: UtensilsCrossed, title: "Menu Management", desc: "Add, edit, and organize your entire menu with categories and images.", color: "text-vorange" },
-  { icon: Users, title: "Role-Based Access", desc: "Separate Admin and Staff roles with controlled permissions.", color: "text-vgreen" },
+  { icon: Users, title: "Role-Based Access", desc: "Separate Admin and Cashier roles with controlled permissions.", color: "text-vgreen" },
   { icon: Smartphone, title: "Multi-Payment Support", desc: "Accept Cash, UPI, and Card payments seamlessly.", color: "text-vyellow" },
   { icon: Shield, title: "Secure & Reliable", desc: "Built for production with data integrity and session management.", color: "text-vred" },
 ];
 
 const stats = [
-  { value: "50K+", label: "Orders Processed", color: "text-vyellow" },
-  { value: "500+", label: "Restaurants", color: "text-vblue" },
+  { value: "1K+", label: "Orders Processed", color: "text-vyellow" },
+  { value: "2", label: "Restaurants", color: "text-vblue" },
   { value: "99.8%", label: "Uptime", color: "text-vgreen" },
   { value: "< 2s", label: "Avg Billing Time", color: "text-vorange" },
 ];
@@ -23,6 +24,22 @@ const stats = [
 const testimonials = [
   { name: "Rajesh Sharma", role: "Owner, Sharma's Chaat Corner", text: "RIPO transformed how we handle billing. What used to take 2 minutes per order now takes 10 seconds!", stars: 5 },
   { name: "Priya Nair", role: "Manager, Dosa Express", text: "The analytics dashboard helps me understand which items are selling best. Revenue is up 30% since we started.", stars: 5 },
+];
+
+const howItWorks = [
+  { icon: Monitor, title: "Open POS Screen", desc: "Launch the billing screen and browse menu items by category." },
+  { icon: ShoppingCart, title: "Add Items to Cart", desc: "Tap items to add, adjust quantities with + / - buttons." },
+  { icon: CreditCard, title: "Select Payment", desc: "Choose Cash, UPI, or Card as payment method." },
+  { icon: Receipt, title: "Generate Invoice", desc: "Print a professional GST invoice instantly." },
+];
+
+const techStack = [
+  { name: "React 18", desc: "Component-based UI library", color: "text-vblue" },
+  { name: "TypeScript", desc: "Type-safe JavaScript", color: "text-vblue" },
+  { name: "Tailwind CSS", desc: "Utility-first CSS framework", color: "text-vgreen" },
+  { name: "Vite", desc: "Lightning-fast build tool", color: "text-vyellow" },
+  { name: "React Router", desc: "Client-side routing", color: "text-vorange" },
+  { name: "Recharts", desc: "Data visualization library", color: "text-vred" },
 ];
 
 const LandingPage = () => {
@@ -39,15 +56,14 @@ const LandingPage = () => {
           </Link>
           <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
             <a href="#features" className="hover:text-foreground transition-colors">Features</a>
+            <a href="#how-it-works" className="hover:text-foreground transition-colors">How It Works</a>
             <a href="#stats" className="hover:text-foreground transition-colors">Stats</a>
+            <a href="#tech-stack" className="hover:text-foreground transition-colors">Tech Stack</a>
             <a href="#testimonials" className="hover:text-foreground transition-colors">Reviews</a>
           </div>
           <div className="flex items-center gap-3">
-            <Link to="/login" className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <Link to="/login" className="px-5 py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-bold hover:opacity-90 transition-opacity active:scale-[0.97]">
               Login
-            </Link>
-            <Link to="/signup" className="px-5 py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-bold hover:opacity-90 transition-opacity active:scale-[0.97]">
-              Get Started
             </Link>
           </div>
         </div>
@@ -55,7 +71,6 @@ const LandingPage = () => {
 
       {/* Hero */}
       <section className="pt-32 pb-20 px-6 relative">
-        {/* Glow orbs */}
         <div className="absolute top-20 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse-glow" />
         <div className="absolute top-40 right-1/4 w-80 h-80 bg-accent/5 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: "1s" }} />
 
@@ -79,7 +94,7 @@ const LandingPage = () => {
             className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed animate-fade-in"
             style={{ animationDelay: "350ms", animationFillMode: "backwards" }}
           >
-            RIPO is a blazing-fast POS billing system designed for Indian street food stalls, 
+            RIPO is a blazing-fast POS (Point of Sale) billing system designed for Indian street food stalls,
             fast food joints, and restaurants. Go from order to invoice in under 2 seconds.
           </p>
 
@@ -88,13 +103,13 @@ const LandingPage = () => {
             style={{ animationDelay: "500ms", animationFillMode: "backwards" }}
           >
             <Link
-              to="/signup"
+              to="/login"
               className="px-8 py-3.5 bg-primary text-primary-foreground rounded-xl font-bold text-base hover:opacity-90 transition-all active:scale-[0.97] shadow-lg shadow-primary/20 flex items-center gap-2"
             >
-              Start Free Trial <ArrowRight size={18} />
+              Get Started <ArrowRight size={18} />
             </Link>
             <Link
-              to="/pos"
+              to="/login"
               className="px-8 py-3.5 bg-secondary text-secondary-foreground rounded-xl font-bold text-base hover:bg-secondary/80 transition-all active:scale-[0.97] border border-border"
             >
               Live Demo
@@ -111,7 +126,7 @@ const LandingPage = () => {
                 <div className="w-3 h-3 rounded-full bg-vred" />
                 <div className="w-3 h-3 rounded-full bg-vyellow" />
                 <div className="w-3 h-3 rounded-full bg-vgreen" />
-                <span className="ml-3 text-xs text-muted-foreground">RIPO — Billing / POS</span>
+                <span className="ml-3 text-xs text-muted-foreground">RIPO — Point of Sale Billing</span>
               </div>
               <div className="grid grid-cols-4 gap-3 p-4">
                 {[
@@ -136,11 +151,7 @@ const LandingPage = () => {
       <section id="stats" className="py-16 px-6 border-y border-border/50">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((stat, i) => (
-            <div
-              key={stat.label}
-              className="text-center animate-fade-in"
-              style={{ animationDelay: `${i * 100}ms`, animationFillMode: "backwards" }}
-            >
+            <div key={stat.label} className="text-center animate-fade-in" style={{ animationDelay: `${i * 100}ms`, animationFillMode: "backwards" }}>
               <p className={`text-4xl font-black ${stat.color} tabular-nums`}>{stat.value}</p>
               <p className="text-sm text-muted-foreground mt-1">{stat.label}</p>
             </div>
@@ -159,19 +170,55 @@ const LandingPage = () => {
               From billing to analytics, RIPO covers every aspect of your fast food business.
             </p>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {features.map((feat, i) => (
-              <div
-                key={feat.title}
-                className="bg-card border border-border rounded-2xl p-6 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 group animate-fade-in"
-                style={{ animationDelay: `${i * 80}ms`, animationFillMode: "backwards" }}
-              >
+              <div key={feat.title} className="bg-card border border-border rounded-2xl p-6 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 group animate-fade-in" style={{ animationDelay: `${i * 80}ms`, animationFillMode: "backwards" }}>
                 <div className={`w-12 h-12 rounded-xl bg-secondary flex items-center justify-center mb-4 ${feat.color} group-hover:scale-110 transition-transform`}>
                   <feat.icon size={24} />
                 </div>
                 <h3 className="text-lg font-bold text-foreground mb-2">{feat.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{feat.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section id="how-it-works" className="py-20 px-6 bg-card/50">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-black text-foreground text-center mb-14">
+            How <span className="text-gradient-blue">RIPO Works</span>
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {howItWorks.map((step, i) => (
+              <div key={step.title} className="text-center animate-fade-in" style={{ animationDelay: `${i * 120}ms`, animationFillMode: "backwards" }}>
+                <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-4">
+                  <step.icon size={28} className="text-primary" />
+                </div>
+                <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground font-black text-sm flex items-center justify-center mx-auto mb-3">{i + 1}</div>
+                <h3 className="text-base font-bold text-foreground mb-2">{step.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{step.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Tech Stack */}
+      <section id="tech-stack" className="py-20 px-6">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-black text-foreground text-center mb-4">
+            Built With <span className="text-gradient-yellow">Modern Tech</span>
+          </h2>
+          <p className="text-muted-foreground text-center mb-12 max-w-lg mx-auto">
+            POS stands for <strong className="text-foreground">Point of Sale</strong> — the place where a customer makes a payment for goods or services.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {techStack.map((tech, i) => (
+              <div key={tech.name} className="bg-card border border-border rounded-xl p-5 hover:border-primary/30 transition-all animate-fade-in" style={{ animationDelay: `${i * 80}ms`, animationFillMode: "backwards" }}>
+                <p className={`text-base font-bold ${tech.color} mb-1`}>{tech.name}</p>
+                <p className="text-sm text-muted-foreground">{tech.desc}</p>
               </div>
             ))}
           </div>
@@ -186,11 +233,7 @@ const LandingPage = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {testimonials.map((t, i) => (
-              <div
-                key={t.name}
-                className="bg-card border border-border rounded-2xl p-6 animate-fade-in"
-                style={{ animationDelay: `${i * 120}ms`, animationFillMode: "backwards" }}
-              >
+              <div key={t.name} className="bg-card border border-border rounded-2xl p-6 animate-fade-in" style={{ animationDelay: `${i * 120}ms`, animationFillMode: "backwards" }}>
                 <div className="flex gap-1 mb-3">
                   {Array.from({ length: t.stars }).map((_, j) => (
                     <Star key={j} size={16} className="text-vyellow fill-vyellow" />
@@ -214,10 +257,10 @@ const LandingPage = () => {
             Ready to Speed Up Your Billing?
           </h2>
           <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
-            Join hundreds of Indian restaurants already using RIPO to bill faster and grow smarter.
+            Join restaurants already using RIPO to bill faster and grow smarter.
           </p>
           <Link
-            to="/signup"
+            to="/login"
             className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-xl font-bold text-lg hover:opacity-90 transition-all active:scale-[0.97] shadow-lg shadow-primary/25"
           >
             Get Started Free <ChevronRight size={20} />
