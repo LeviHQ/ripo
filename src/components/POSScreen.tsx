@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Search, Plus, Minus, Trash2, Receipt, CreditCard, Smartphone, Banknote } from "lucide-react";
-import { menuItems, categories } from "@/data/menuData";
+import { categories } from "@/data/menuData";
 import { useApp } from "@/contexts/AppContext";
 import { InvoiceModal } from "./InvoiceModal";
 import type { Order } from "@/data/menuData";
 
 const POSScreen = () => {
-  const { cart, addToCart, updateQuantity, clearCart, addOrder } = useApp();
+  const { cart, addToCart, updateQuantity, clearCart, addOrder, menuItemsList } = useApp();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [paymentMethod, setPaymentMethod] = useState<"cash" | "upi" | "card">("cash");
@@ -14,7 +14,7 @@ const POSScreen = () => {
   const [showInvoice, setShowInvoice] = useState(false);
   const [lastOrder, setLastOrder] = useState<Order | null>(null);
 
-  const filtered = menuItems.filter((item) => {
+  const filtered = menuItemsList.filter((item) => {
     const catMatch = selectedCategory === "All" || item.category === selectedCategory;
     const searchMatch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
     return catMatch && searchMatch;
