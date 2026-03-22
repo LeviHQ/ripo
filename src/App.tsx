@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AppProvider } from "./contexts/AppContext";
 import Layout from "./components/Layout";
+import LandingPage from "./components/LandingPage";
+import AuthPage from "./components/AuthPage";
 import Dashboard from "./components/Dashboard";
 import POSScreen from "./components/POSScreen";
 import MenuManagement from "./components/MenuManagement";
@@ -22,8 +24,11 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<AuthPage mode="login" />} />
+            <Route path="/signup" element={<AuthPage mode="signup" />} />
             <Route element={<Layout />}>
-              <Route path="/" element={<Dashboard />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/pos" element={<POSScreen />} />
               <Route path="/menu" element={<MenuManagement />} />
               <Route path="/orders" element={<OrderManagement />} />
