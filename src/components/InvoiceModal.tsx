@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { X, Printer } from "lucide-react";
 import type { Order } from "@/data/menuData";
 
@@ -7,15 +8,69 @@ interface InvoiceModalProps {
 }
 
 export const InvoiceModal = ({ order, onClose }: InvoiceModalProps) => {
-  const handlePrint = () => window.print();
+  const printRef = useRef<HTMLDivElement>(null);
+
+  const handlePrint = () => {
+    const content = printRef.current;
+    if (!content) return;
+
+    const printWindow = window.open("", "_blank", "width=400,height=600");
+    if (!printWindow) return;
+
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Invoice ${order.id}</title>
+          <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { font-family: 'Courier New', monospace; padding: 20px; font-size: 12px; color: #000; background: #fff; }
+            .center { text-align: center; }
+            .bold { font-weight: bold; }
+            .line { border-top: 1px dashed #000; margin: 8px 0; }
+            .row { display: flex; justify-content: space-between; padding: 2px 0; }
+            .title { font-size: 18px; font-weight: bold; letter-spacing: 2px; }
+            table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+            th, td { text-align: left; padding: 3px 0; font-size: 11px; }
+            th:last-child, td:last-child { text-align: right; }
+            th { border-bottom: 1px solid #000; }
+            .total-row { font-size: 14px; font-weight: bold; border-top: 1px solid #000; padding-top: 6px; }
+          </style>
+        </head>
+        <body>
+          <div class="center">
+            <div class="title">RIPO</div>
+            <div>Fast Food Billing System</div>
+            <div>123 Food Street, Mumbai, India</div>
+            <div>GST: 27AABCU9603R1ZM</div>
+          </div>
+          <div class="line"></div>
+          <div class="row"><span>Order: ${order.id}</span><span>${new Date(order.timestamp).toLocaleString("en-IN")}</span></div>
+          <div class="line"></div>
+          <table>
+            <thead><tr><th>Item</th><th>Qty</th><th>Amt</th></tr></thead>
+            <tbody>
+              ${order.items.map((item) => `<tr><td>${item.name}</td><td>${item.quantity} × ₹${item.price}</td><td>₹${item.price * item.quantity}</td></tr>`).join("")}
+            </tbody>
+          </table>
+          <div class="line"></div>
+          <div class="row"><span>Subtotal</span><span>₹${order.subtotal}</span></div>
+          <div class="row"><span>GST (5%)</span><span>₹${order.tax}</span></div>
+          ${order.discount > 0 ? `<div class="row"><span>Discount</span><span>-₹${order.discount}</span></div>` : ""}
+          <div class="row total-row"><span>Total</span><span>₹${order.total}</span></div>
+          <div class="row"><span>Payment</span><span style="text-transform:capitalize">${order.paymentMethod}</span></div>
+          <div class="line"></div>
+          <div class="center" style="margin-top:10px">Thank you for your visit!</div>
+          <script>window.onload = function() { window.print(); window.close(); }</script>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+  };
 
   return (
-    <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4 no-print" onClick={onClose}>
-      <div
-        className="bg-card rounded-2xl shadow-2xl border border-border w-full max-w-sm max-h-[90vh] overflow-auto animate-scale-in"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="p-6">
+    <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4" onClick={onClose}>
+      <div className="bg-card rounded-2xl shadow-2xl border border-border w-full max-w-sm max-h-[90vh] overflow-auto animate-scale-in" onClick={(e) => e.stopPropagation()}>
+        <div className="p-6" ref={printRef}>
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-lg font-bold text-foreground">Invoice</h2>
             <button onClick={onClose} className="w-8 h-8 rounded-full hover:bg-secondary flex items-center justify-center transition-colors text-muted-foreground">

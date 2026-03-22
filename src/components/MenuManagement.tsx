@@ -1,25 +1,81 @@
 import { useState } from "react";
-import { Plus, Pencil, Trash2, Search } from "lucide-react";
-import { menuItems, categories } from "@/data/menuData";
+import { Plus, Pencil, Trash2, Search, X } from "lucide-react";
+import { categories } from "@/data/menuData";
+import { useApp } from "@/contexts/AppContext";
+import { toast } from "sonner";
+
+interface MenuFormData {
+  name: string;
+  price: string;
+  category: string;
+  isVeg: boolean;
+  image: string;
+}
+
+const emptyForm: MenuFormData = { name: "", price: "", category: "Street Food Specials", isVeg: true, image: "/food/samosa.jpg" };
+
+const foodImages = [
+  "/food/vada-pav.jpg", "/food/pav-bhaji.jpg", "/food/pani-puri.jpg", "/food/samosa.jpg",
+  "/food/veg-burger.jpg", "/food/pizza.jpg", "/food/masala-dosa.jpg", "/food/paneer-roll.jpg",
+  "/food/masala-chai.jpg", "/food/cold-coffee.jpg", "/food/lassi.jpg", "/food/combo-meal.jpg",
+];
 
 const MenuManagement = () => {
+  const { menuItemsList, addMenuItem, updateMenuItem, deleteMenuItem } = useApp();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [form, setForm] = useState<MenuFormData>(emptyForm);
+  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
 
-  const filtered = menuItems.filter((item) => {
+  const filtered = menuItemsList.filter((item) => {
     const catMatch = selectedCategory === "All" || item.category === selectedCategory;
     const searchMatch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
     return catMatch && searchMatch;
   });
+
+  const openAdd = () => {
+    setEditingId(null);
+    setForm(emptyForm);
+    setShowModal(true);
+  };
+
+  const openEdit = (item: typeof menuItemsList[0]) => {
+    setEditingId(item.id);
+    setForm({ name: item.name, price: String(item.price), category: item.category, isVeg: item.isVeg, image: item.image });
+    setShowModal(true);
+  };
+
+  const handleSave = () => {
+    if (!form.name.trim() || !form.price.trim() || Number(form.price) <= 0) {
+      toast.error("Please fill in all fields correctly");
+      return;
+    }
+    if (editingId) {
+      updateMenuItem(editingId, { name: form.name, price: Number(form.price), category: form.category, isVeg: form.isVeg, image: form.image });
+      toast.success(`"${form.name}" updated`);
+    } else {
+      addMenuItem({ name: form.name, price: Number(form.price), category: form.category, isVeg: form.isVeg, image: form.image });
+      toast.success(`"${form.name}" added to menu`);
+    }
+    setShowModal(false);
+  };
+
+  const handleDelete = (id: string, name: string) => {
+    deleteMenuItem(id);
+    setDeleteConfirm(null);
+    toast.success(`"${name}" removed from menu`);
+  };
 
   return (
     <div className="p-6 space-y-5">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-foreground">Menu Management</h1>
-          <p className="text-sm text-muted-foreground">{menuItems.length} items across {categories.length - 1} categories</p>
+          <p className="text-sm text-muted-foreground">{menuItemsList.length} items across {categories.length - 1} categories</p>
         </div>
-        <button className="px-4 py-2.5 bg-primary text-primary-foreground rounded-xl font-medium text-sm flex items-center gap-2 hover:opacity-90 transition-opacity active:scale-[0.97]">
+        <button onClick={openAdd} className="px-4 py-2.5 bg-primary text-primary-foreground rounded-xl font-medium text-sm flex items-center gap-2 hover:opacity-90 transition-opacity active:scale-[0.97]">
           <Plus size={18} /> Add Item
         </button>
       </div>
@@ -64,14 +120,92 @@ const MenuManagement = () => {
                   </span>
                 </td>
                 <td className="py-3 px-4 text-right">
-                  <button className="p-1.5 rounded-lg hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground"><Pencil size={15} /></button>
-                  <button className="p-1.5 rounded-lg hover:bg-vred/10 transition-colors text-muted-foreground hover:text-vred ml-1"><Trash2 size={15} /></button>
+                  {deleteConfirm === item.id ? (
+                    <div className="inline-flex items-center gap-2">
+                      <span className="text-xs text-muted-foreground">Delete?</span>
+                      <button onClick={() => handleDelete(item.id, item.name)} className="px-2 py-1 rounded-lg bg-vred/20 text-vred text-xs font-medium hover:bg-vred/30 transition-colors">Yes</button>
+                      <button onClick={() => setDeleteConfirm(null)} className="px-2 py-1 rounded-lg bg-secondary text-muted-foreground text-xs font-medium hover:bg-secondary/80 transition-colors">No</button>
+                    </div>
+                  ) : (
+                    <>
+                      <button onClick={() => openEdit(item)} className="p-1.5 rounded-lg hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground"><Pencil size={15} /></button>
+                      <button onClick={() => setDeleteConfirm(item.id)} className="p-1.5 rounded-lg hover:bg-vred/10 transition-colors text-muted-foreground hover:text-vred ml-1"><Trash2 size={15} /></button>
+                    </>
+                  )}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      {/* Add/Edit Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setShowModal(false)}>
+          <div className="bg-card rounded-2xl shadow-2xl border border-border w-full max-w-md animate-scale-in" onClick={(e) => e.stopPropagation()}>
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-5">
+                <h2 className="text-lg font-bold text-foreground">{editingId ? "Edit Item" : "Add New Item"}</h2>
+                <button onClick={() => setShowModal(false)} className="w-8 h-8 rounded-full hover:bg-secondary flex items-center justify-center transition-colors text-muted-foreground"><X size={18} /></button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="text-xs text-muted-foreground font-medium uppercase tracking-wider mb-1.5 block">Item Name</label>
+                  <input type="text" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="e.g. Paneer Tikka"
+                    className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-primary/30 outline-none transition-all text-sm" />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-xs text-muted-foreground font-medium uppercase tracking-wider mb-1.5 block">Price (₹)</label>
+                    <input type="number" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} placeholder="99"
+                      className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-primary/30 outline-none transition-all text-sm tabular-nums" min={1} />
+                  </div>
+                  <div>
+                    <label className="text-xs text-muted-foreground font-medium uppercase tracking-wider mb-1.5 block">Category</label>
+                    <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}
+                      className="w-full px-4 py-3 rounded-xl bg-secondary border border-border text-foreground focus:ring-2 focus:ring-primary/30 outline-none text-sm">
+                      {categories.filter((c) => c !== "All").map((c) => <option key={c} value={c}>{c}</option>)}
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs text-muted-foreground font-medium uppercase tracking-wider mb-1.5 block">Type</label>
+                  <div className="flex gap-3">
+                    <button type="button" onClick={() => setForm({ ...form, isVeg: true })}
+                      className={`flex-1 py-2.5 rounded-xl text-sm font-medium border transition-all ${form.isVeg ? "bg-vgreen/15 border-vgreen text-vgreen" : "bg-secondary border-border text-muted-foreground"}`}>
+                      Veg
+                    </button>
+                    <button type="button" onClick={() => setForm({ ...form, isVeg: false })}
+                      className={`flex-1 py-2.5 rounded-xl text-sm font-medium border transition-all ${!form.isVeg ? "bg-vred/15 border-vred text-vred" : "bg-secondary border-border text-muted-foreground"}`}>
+                      Non-Veg
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-xs text-muted-foreground font-medium uppercase tracking-wider mb-1.5 block">Image</label>
+                  <div className="grid grid-cols-6 gap-2">
+                    {foodImages.map((img) => (
+                      <button key={img} type="button" onClick={() => setForm({ ...form, image: img })}
+                        className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${form.image === img ? "border-primary" : "border-transparent hover:border-border"}`}>
+                        <img src={img} alt="" className="w-full h-full object-cover" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <button onClick={handleSave}
+                className="w-full mt-5 py-3 bg-primary text-primary-foreground rounded-xl font-bold text-sm hover:opacity-90 transition-opacity active:scale-[0.98]">
+                {editingId ? "Save Changes" : "Add Item"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

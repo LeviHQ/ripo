@@ -1,26 +1,32 @@
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation, Navigate } from "react-router-dom";
 import { LayoutDashboard, ShoppingCart, UtensilsCrossed, ClipboardList, BarChart3, ChevronLeft, ChevronRight, Flame, LogOut } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
-const navItems = [
-  { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
-  { icon: ShoppingCart, label: "Billing / POS", path: "/pos" },
-  { icon: UtensilsCrossed, label: "Menu", path: "/menu" },
-  { icon: ClipboardList, label: "Orders", path: "/orders" },
-  { icon: BarChart3, label: "Reports", path: "/reports" },
+const allNavItems = [
+  { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard", adminOnly: true },
+  { icon: ShoppingCart, label: "Billing / POS", path: "/pos", adminOnly: false },
+  { icon: UtensilsCrossed, label: "Menu", path: "/menu", adminOnly: true },
+  { icon: ClipboardList, label: "Orders", path: "/orders", adminOnly: false },
+  { icon: BarChart3, label: "Reports", path: "/reports", adminOnly: true },
 ];
 
 const Layout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
+  const { role, logout, isAdmin, username } = useAuth();
+
+  if (!role) return <Navigate to="/login" replace />;
+
+  const navItems = allNavItems.filter((item) => isAdmin || !item.adminOnly);
+
+  const handleLogout = () => {
+    logout();
+  };
 
   return (
     <div className="flex h-screen overflow-hidden">
-      {/* Sidebar */}
-      <aside
-        className={`${collapsed ? "w-[68px]" : "w-60"} bg-sidebar flex flex-col transition-all duration-300 ease-out flex-shrink-0 border-r border-sidebar-border`}
-      >
-        {/* Logo */}
+      <aside className={`${collapsed ? "w-[68px]" : "w-60"} bg-sidebar flex flex-col transition-all duration-300 ease-out flex-shrink-0 border-r border-sidebar-border`}>
         <div className="h-16 flex items-center gap-2.5 px-4 border-b border-sidebar-border">
           <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center flex-shrink-0">
             <Flame size={20} className="text-primary-foreground" />
@@ -28,12 +34,11 @@ const Layout = () => {
           {!collapsed && (
             <div className="animate-fade-in">
               <h1 className="text-base font-bold text-foreground tracking-tight">RIPO</h1>
-              <p className="text-[10px] text-sidebar-foreground leading-none">Fast Food POS</p>
+              <p className="text-[10px] text-sidebar-foreground leading-none capitalize">{username} · {role}</p>
             </div>
           )}
         </div>
 
-        {/* Navigation */}
         <nav className="flex-1 py-3 px-2 space-y-1">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path;
@@ -54,10 +59,10 @@ const Layout = () => {
           })}
         </nav>
 
-        {/* Bottom */}
         <div className="px-2 pb-2">
           <Link
-            to="/"
+            to="/login"
+            onClick={handleLogout}
             className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sidebar-foreground hover:bg-sidebar-accent hover:text-vred transition-all"
           >
             <LogOut size={20} className="flex-shrink-0" />
@@ -73,7 +78,6 @@ const Layout = () => {
         </button>
       </aside>
 
-      {/* Main content */}
       <main className="flex-1 overflow-auto bg-background">
         <Outlet />
       </main>
