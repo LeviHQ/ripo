@@ -14,7 +14,7 @@ const POSScreen = () => {
   const [showInvoice, setShowInvoice] = useState(false);
   const [lastOrder, setLastOrder] = useState<Order | null>(null);
 
-  const filtered = menuItems.filter((item) => {
+  const filtered = menuItemsList.filter((item) => {
     const catMatch = selectedCategory === "All" || item.category === selectedCategory;
     const searchMatch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
     return catMatch && searchMatch;
