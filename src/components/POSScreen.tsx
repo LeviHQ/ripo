@@ -6,7 +6,7 @@ import { InvoiceModal } from "./InvoiceModal";
 import type { Order } from "@/data/menuData";
 
 const POSScreen = () => {
-  const { cart, addToCart, updateQuantity, clearCart, addOrder } = useApp();
+  const { cart, addToCart, updateQuantity, clearCart, addOrder, menuItemsList } = useApp();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [paymentMethod, setPaymentMethod] = useState<"cash" | "upi" | "card">("cash");
