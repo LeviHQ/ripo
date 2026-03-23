@@ -197,25 +197,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Tech Stack */}
-      <section id="tech-stack" className="py-20 px-6">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-black text-foreground text-center mb-4">
-            Built With <span className="text-gradient-yellow">Modern Tech</span>
-          </h2>
-          <p className="text-muted-foreground text-center mb-12 max-w-lg mx-auto">
-            POS stands for <strong className="text-foreground">Point of Sale</strong> — the place where a customer makes a payment for goods or services.
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {techStack.map((tech, i) => (
-              <div key={tech.name} className="bg-card border border-border rounded-xl p-5 hover:border-primary/30 transition-all animate-fade-in" style={{ animationDelay: `${i * 80}ms`, animationFillMode: "backwards" }}>
-                <p className={`text-base font-bold ${tech.color} mb-1`}>{tech.name}</p>
-                <p className="text-sm text-muted-foreground">{tech.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Testimonials */}
       <section id="testimonials" className="py-20 px-6 bg-card/50">
