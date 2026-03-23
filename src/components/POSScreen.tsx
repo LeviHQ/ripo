@@ -13,6 +13,7 @@ const POSScreen = () => {
   const [discount, setDiscount] = useState(0);
   const [showInvoice, setShowInvoice] = useState(false);
   const [lastOrder, setLastOrder] = useState<Order | null>(null);
+  const [customerName, setCustomerName] = useState("");
 
   const filtered = menuItemsList.filter((item) => {
     const catMatch = selectedCategory === "All" || item.category === selectedCategory;
