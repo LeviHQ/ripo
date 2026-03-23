@@ -30,6 +30,7 @@ const POSScreen = () => {
     if (cart.length === 0) return;
     const order: Order = {
       id: `ORD-${Date.now().toString(36).toUpperCase()}`,
+      customerName: customerName.trim() || "Walk-in Customer",
       items: [...cart],
       subtotal,
       tax: gstAmount,
