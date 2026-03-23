@@ -46,54 +46,54 @@ const Reports = () => {
   const statColors = ["text-vyellow", "text-vblue", "text-vorange"];
 
   return (
-    <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold text-foreground">Reports & Analytics</h1>
+    <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+      <h1 className="text-xl sm:text-2xl font-bold text-foreground">Reports & Analytics</h1>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
         {[
           { label: "Total Revenue", value: `₹${totalRevenue.toLocaleString("en-IN")}` },
           { label: "Total Orders", value: totalOrders.toString() },
           { label: "Avg Order Value", value: `₹${avgOrder}` },
         ].map((stat, i) => (
-          <div key={stat.label} className="bg-card rounded-xl border border-border p-5 text-center">
-            <p className="text-sm text-muted-foreground">{stat.label}</p>
-            <p className={`text-3xl font-bold mt-1 tabular-nums ${statColors[i]}`}>{stat.value}</p>
+          <div key={stat.label} className="bg-card rounded-xl border border-border p-4 sm:p-5 text-center">
+            <p className="text-xs sm:text-sm text-muted-foreground">{stat.label}</p>
+            <p className={`text-2xl sm:text-3xl font-bold mt-1 tabular-nums ${statColors[i]}`}>{stat.value}</p>
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <div className="bg-card rounded-xl border border-border p-5">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5">
+        <div className="bg-card rounded-xl border border-border p-4 sm:p-5">
           <h3 className="font-semibold text-foreground mb-4">Revenue Trend</h3>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={250}>
             <LineChart data={dailyData}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis dataKey="label" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-              <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} tickFormatter={(v) => `₹${v}`} />
+              <XAxis dataKey="label" stroke="hsl(var(--muted-foreground))" fontSize={11} />
+              <YAxis stroke="hsl(var(--muted-foreground))" fontSize={11} tickFormatter={(v) => `₹${v}`} />
               <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`₹${v}`, "Revenue"]} />
               <Line type="monotone" dataKey="revenue" stroke="hsl(var(--primary))" strokeWidth={2.5} dot={{ fill: "hsl(var(--primary))", r: 4 }} />
             </LineChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-card rounded-xl border border-border p-5">
+        <div className="bg-card rounded-xl border border-border p-4 sm:p-5">
           <h3 className="font-semibold text-foreground mb-4">Top Selling Items</h3>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={250}>
             <BarChart data={topItems} layout="vertical">
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis type="number" stroke="hsl(var(--muted-foreground))" fontSize={12} tickFormatter={(v) => `₹${v}`} />
-              <YAxis dataKey="name" type="category" width={100} stroke="hsl(var(--muted-foreground))" fontSize={11} />
+              <XAxis type="number" stroke="hsl(var(--muted-foreground))" fontSize={11} tickFormatter={(v) => `₹${v}`} />
+              <YAxis dataKey="name" type="category" width={80} stroke="hsl(var(--muted-foreground))" fontSize={10} />
               <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`₹${v}`, "Revenue"]} />
               <Bar dataKey="revenue" fill="hsl(var(--primary))" radius={[0, 6, 6, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-card rounded-xl border border-border p-5">
+        <div className="bg-card rounded-xl border border-border p-4 sm:p-5">
           <h3 className="font-semibold text-foreground mb-4">Payment Methods</h3>
-          <ResponsiveContainer width="100%" height={260}>
+          <ResponsiveContainer width="100%" height={220}>
             <PieChart>
-              <Pie data={paymentData} cx="50%" cy="50%" innerRadius={60} outerRadius={95} paddingAngle={4} dataKey="value"
+              <Pie data={paymentData} cx="50%" cy="50%" innerRadius={50} outerRadius={80} paddingAngle={4} dataKey="value"
                 label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
                 {paymentData.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
               </Pie>
@@ -102,13 +102,13 @@ const Reports = () => {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-card rounded-xl border border-border p-5">
+        <div className="bg-card rounded-xl border border-border p-4 sm:p-5">
           <h3 className="font-semibold text-foreground mb-4">Orders per Day</h3>
-          <ResponsiveContainer width="100%" height={260}>
+          <ResponsiveContainer width="100%" height={220}>
             <BarChart data={dailyData}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-              <XAxis dataKey="label" stroke="hsl(var(--muted-foreground))" fontSize={12} />
-              <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
+              <XAxis dataKey="label" stroke="hsl(var(--muted-foreground))" fontSize={11} />
+              <YAxis stroke="hsl(var(--muted-foreground))" fontSize={11} />
               <Tooltip contentStyle={tooltipStyle} />
               <Bar dataKey="orders" fill="hsl(150,70%,45%)" radius={[6, 6, 0, 0]} />
             </BarChart>
