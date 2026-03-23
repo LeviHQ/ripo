@@ -58,6 +58,7 @@ const OrderManagement = () => {
                   className={`border-t border-border/50 hover:bg-secondary/30 transition-colors cursor-pointer ${selectedOrderId === order.id ? "bg-primary/5" : ""}`}
                   onClick={() => setSelectedOrderId(order.id)}>
                   <td className="py-3 px-4 font-mono text-xs text-muted-foreground">{order.id}</td>
+                  <td className="py-3 px-4 text-sm font-medium text-foreground">{order.customerName}</td>
                   <td className="py-3 px-4">{order.items.length}</td>
                   <td className="py-3 px-4 font-bold text-vyellow tabular-nums">₹{order.total}</td>
                   <td className="py-3 px-4 capitalize text-xs">{order.paymentMethod}</td>
