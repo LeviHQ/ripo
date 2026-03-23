@@ -9,7 +9,7 @@ const OrderManagement = () => {
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
 
   const filtered = orders.filter((o) => {
-    const matchesSearch = o.id.toLowerCase().includes(search.toLowerCase());
+    const matchesSearch = o.id.toLowerCase().includes(search.toLowerCase()) || o.customerName.toLowerCase().includes(search.toLowerCase());
     const matchesStatus = statusFilter === "all" || o.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
