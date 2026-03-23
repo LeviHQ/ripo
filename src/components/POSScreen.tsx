@@ -45,6 +45,7 @@ const POSScreen = () => {
     setShowInvoice(true);
     clearCart();
     setDiscount(0);
+    setCustomerName("");
   };
 
   const paymentMethods = [
