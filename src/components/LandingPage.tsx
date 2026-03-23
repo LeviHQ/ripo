@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import {
   Flame, ShoppingCart, BarChart3, Users, Zap, Shield, ChevronRight,
   UtensilsCrossed, Smartphone, CreditCard, ArrowRight, Star, Clock,
-  Receipt, Settings, TrendingUp, CheckCircle2, Monitor
+  Receipt, Monitor
 } from "lucide-react";
 
 const features = [
@@ -33,14 +33,6 @@ const howItWorks = [
   { icon: Receipt, title: "Generate Invoice", desc: "Print a professional GST invoice instantly." },
 ];
 
-const techStack = [
-  { name: "React 18", desc: "Component-based UI library", color: "text-vblue" },
-  { name: "TypeScript", desc: "Type-safe JavaScript", color: "text-vblue" },
-  { name: "Tailwind CSS", desc: "Utility-first CSS framework", color: "text-vgreen" },
-  { name: "Vite", desc: "Lightning-fast build tool", color: "text-vyellow" },
-  { name: "React Router", desc: "Client-side routing", color: "text-vorange" },
-  { name: "Recharts", desc: "Data visualization library", color: "text-vred" },
-];
 
 const LandingPage = () => {
   return (
@@ -58,7 +50,7 @@ const LandingPage = () => {
             <a href="#features" className="hover:text-foreground transition-colors">Features</a>
             <a href="#how-it-works" className="hover:text-foreground transition-colors">How It Works</a>
             <a href="#stats" className="hover:text-foreground transition-colors">Stats</a>
-            <a href="#tech-stack" className="hover:text-foreground transition-colors">Tech Stack</a>
+            <a href="#testimonials" className="hover:text-foreground transition-colors">Reviews</a>
             <a href="#testimonials" className="hover:text-foreground transition-colors">Reviews</a>
           </div>
           <div className="flex items-center gap-3">
@@ -205,25 +197,6 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Tech Stack */}
-      <section id="tech-stack" className="py-20 px-6">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-black text-foreground text-center mb-4">
-            Built With <span className="text-gradient-yellow">Modern Tech</span>
-          </h2>
-          <p className="text-muted-foreground text-center mb-12 max-w-lg mx-auto">
-            POS stands for <strong className="text-foreground">Point of Sale</strong> — the place where a customer makes a payment for goods or services.
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {techStack.map((tech, i) => (
-              <div key={tech.name} className="bg-card border border-border rounded-xl p-5 hover:border-primary/30 transition-all animate-fade-in" style={{ animationDelay: `${i * 80}ms`, animationFillMode: "backwards" }}>
-                <p className={`text-base font-bold ${tech.color} mb-1`}>{tech.name}</p>
-                <p className="text-sm text-muted-foreground">{tech.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Testimonials */}
       <section id="testimonials" className="py-20 px-6 bg-card/50">
