@@ -13,6 +13,7 @@ const POSScreen = () => {
   const [discount, setDiscount] = useState(0);
   const [showInvoice, setShowInvoice] = useState(false);
   const [lastOrder, setLastOrder] = useState<Order | null>(null);
+  const [customerName, setCustomerName] = useState("");
 
   const filtered = menuItemsList.filter((item) => {
     const catMatch = selectedCategory === "All" || item.category === selectedCategory;
@@ -29,6 +30,7 @@ const POSScreen = () => {
     if (cart.length === 0) return;
     const order: Order = {
       id: `ORD-${Date.now().toString(36).toUpperCase()}`,
+      customerName: customerName.trim() || "Walk-in Customer",
       items: [...cart],
       subtotal,
       tax: gstAmount,
@@ -43,6 +45,7 @@ const POSScreen = () => {
     setShowInvoice(true);
     clearCart();
     setDiscount(0);
+    setCustomerName("");
   };
 
   const paymentMethods = [
@@ -114,16 +117,25 @@ const POSScreen = () => {
 
       {/* Right: Cart Panel */}
       <div className="w-[380px] bg-card border-l border-border flex flex-col flex-shrink-0">
-        <div className="h-16 flex items-center justify-between px-5 border-b border-border">
-          <div>
-            <h2 className="font-bold text-foreground">Current Order</h2>
-            <p className="text-xs text-muted-foreground">
-              {cart.length} item{cart.length !== 1 ? "s" : ""} · {cart.reduce((s, i) => s + i.quantity, 0)} qty
-            </p>
+        <div className="px-5 py-3 border-b border-border space-y-2">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="font-bold text-foreground">Current Order</h2>
+              <p className="text-xs text-muted-foreground">
+                {cart.length} item{cart.length !== 1 ? "s" : ""} · {cart.reduce((s, i) => s + i.quantity, 0)} qty
+              </p>
+            </div>
+            {cart.length > 0 && (
+              <button onClick={clearCart} className="text-xs text-vred hover:underline font-medium">Clear</button>
+            )}
           </div>
-          {cart.length > 0 && (
-            <button onClick={clearCart} className="text-xs text-vred hover:underline font-medium">Clear</button>
-          )}
+          <input
+            type="text"
+            placeholder="Customer Name (optional)"
+            value={customerName}
+            onChange={(e) => setCustomerName(e.target.value)}
+            className="w-full px-3 py-2 rounded-lg bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-primary/30 outline-none text-sm"
+          />
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 space-y-2.5">

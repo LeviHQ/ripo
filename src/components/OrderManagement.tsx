@@ -9,7 +9,7 @@ const OrderManagement = () => {
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
 
   const filtered = orders.filter((o) => {
-    const matchesSearch = o.id.toLowerCase().includes(search.toLowerCase());
+    const matchesSearch = o.id.toLowerCase().includes(search.toLowerCase()) || o.customerName.toLowerCase().includes(search.toLowerCase());
     const matchesStatus = statusFilter === "all" || o.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
@@ -43,6 +43,7 @@ const OrderManagement = () => {
             <thead>
               <tr className="bg-secondary/50">
                 <th className="text-left py-3 px-4 text-muted-foreground font-medium text-xs uppercase tracking-wider">Order ID</th>
+                <th className="text-left py-3 px-4 text-muted-foreground font-medium text-xs uppercase tracking-wider">Customer</th>
                 <th className="text-left py-3 px-4 text-muted-foreground font-medium text-xs uppercase tracking-wider">Items</th>
                 <th className="text-left py-3 px-4 text-muted-foreground font-medium text-xs uppercase tracking-wider">Total</th>
                 <th className="text-left py-3 px-4 text-muted-foreground font-medium text-xs uppercase tracking-wider">Payment</th>
@@ -57,6 +58,7 @@ const OrderManagement = () => {
                   className={`border-t border-border/50 hover:bg-secondary/30 transition-colors cursor-pointer ${selectedOrderId === order.id ? "bg-primary/5" : ""}`}
                   onClick={() => setSelectedOrderId(order.id)}>
                   <td className="py-3 px-4 font-mono text-xs text-muted-foreground">{order.id}</td>
+                  <td className="py-3 px-4 text-sm font-medium text-foreground">{order.customerName}</td>
                   <td className="py-3 px-4">{order.items.length}</td>
                   <td className="py-3 px-4 font-bold text-vyellow tabular-nums">₹{order.total}</td>
                   <td className="py-3 px-4 capitalize text-xs">{order.paymentMethod}</td>
@@ -73,7 +75,7 @@ const OrderManagement = () => {
                 </tr>
               ))}
               {filtered.length === 0 && (
-                <tr><td colSpan={7} className="py-12 text-center text-muted-foreground text-sm">No orders found</td></tr>
+                <tr><td colSpan={8} className="py-12 text-center text-muted-foreground text-sm">No orders found</td></tr>
               )}
             </tbody>
           </table>
@@ -83,6 +85,10 @@ const OrderManagement = () => {
           <div className="w-80 bg-card rounded-xl border border-border p-5 space-y-4 animate-slide-in-right flex-shrink-0 self-start">
             <div className="flex items-center justify-between">
               <h3 className="font-bold text-foreground text-sm">Order {selected.id}</h3>
+            </div>
+            <div className="flex justify-between text-sm mb-1">
+              <span className="text-muted-foreground">Customer</span>
+              <span className="font-medium text-foreground">{selected.customerName}</span>
               <button onClick={() => setSelectedOrderId(null)} className="p-1 rounded-lg hover:bg-secondary text-muted-foreground"><X size={14} /></button>
             </div>
             <div className="space-y-2">

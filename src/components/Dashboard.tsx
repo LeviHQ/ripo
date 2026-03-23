@@ -129,6 +129,7 @@ const Dashboard = () => {
               <thead>
                 <tr className="border-b border-border">
                   <th className="text-left py-2.5 px-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">Order ID</th>
+                  <th className="text-left py-2.5 px-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">Customer</th>
                   <th className="text-left py-2.5 px-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">Items</th>
                   <th className="text-left py-2.5 px-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">Total</th>
                   <th className="text-left py-2.5 px-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">Payment</th>
@@ -140,6 +141,7 @@ const Dashboard = () => {
                 {orders.slice(0, 8).map((order) => (
                   <tr key={order.id} className="border-b border-border/50 hover:bg-secondary/30 transition-colors">
                     <td className="py-2.5 px-3 font-mono text-xs text-muted-foreground">{order.id}</td>
+                    <td className="py-2.5 px-3 text-sm font-medium text-foreground">{order.customerName}</td>
                     <td className="py-2.5 px-3">{order.items.length} items</td>
                     <td className="py-2.5 px-3 font-bold text-vyellow tabular-nums">₹{order.total}</td>
                     <td className="py-2.5 px-3 capitalize">{order.paymentMethod}</td>
