@@ -33,14 +33,6 @@ const howItWorks = [
   { icon: Receipt, title: "Generate Invoice", desc: "Print a professional GST invoice instantly." },
 ];
 
-const techStack = [
-  { name: "React 18", desc: "Component-based UI library", color: "text-vblue" },
-  { name: "TypeScript", desc: "Type-safe JavaScript", color: "text-vblue" },
-  { name: "Tailwind CSS", desc: "Utility-first CSS framework", color: "text-vgreen" },
-  { name: "Vite", desc: "Lightning-fast build tool", color: "text-vyellow" },
-  { name: "React Router", desc: "Client-side routing", color: "text-vorange" },
-  { name: "Recharts", desc: "Data visualization library", color: "text-vred" },
-];
 
 const LandingPage = () => {
   return (
