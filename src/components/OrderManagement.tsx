@@ -43,6 +43,7 @@ const OrderManagement = () => {
             <thead>
               <tr className="bg-secondary/50">
                 <th className="text-left py-3 px-4 text-muted-foreground font-medium text-xs uppercase tracking-wider">Order ID</th>
+                <th className="text-left py-3 px-4 text-muted-foreground font-medium text-xs uppercase tracking-wider">Customer</th>
                 <th className="text-left py-3 px-4 text-muted-foreground font-medium text-xs uppercase tracking-wider">Items</th>
                 <th className="text-left py-3 px-4 text-muted-foreground font-medium text-xs uppercase tracking-wider">Total</th>
                 <th className="text-left py-3 px-4 text-muted-foreground font-medium text-xs uppercase tracking-wider">Payment</th>
