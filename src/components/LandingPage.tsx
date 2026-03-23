@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import {
   Flame, ShoppingCart, BarChart3, Users, Zap, Shield, ChevronRight,
   UtensilsCrossed, Smartphone, CreditCard, ArrowRight, Star, Clock,
-  Receipt, Settings, TrendingUp, CheckCircle2, Monitor
+  Receipt, Monitor
 } from "lucide-react";
 
 const features = [
