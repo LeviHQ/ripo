@@ -45,6 +45,7 @@ export const InvoiceModal = ({ order, onClose }: InvoiceModalProps) => {
           </div>
           <div class="line"></div>
           <div class="row"><span>Order: ${order.id}</span><span>${new Date(order.timestamp).toLocaleString("en-IN")}</span></div>
+          <div class="row"><span>Customer:</span><span>${order.customerName}</span></div>
           <div class="line"></div>
           <table>
             <thead><tr><th>Item</th><th>Qty</th><th>Amt</th></tr></thead>
