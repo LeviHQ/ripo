@@ -35,8 +35,10 @@ const generateDummyOrders = (items: MenuItem[]): Order[] => {
     }
     const subtotal = cartItems.reduce((s, item) => s + item.price * item.quantity, 0);
     const tax = Math.round(subtotal * 0.05);
+    const dummyNames = ["Rahul", "Priya", "Amit", "Sneha", "Vikram", "Anjali", "Rohan", "Pooja", "Arjun", "Kavita", "Deepak", "Neha", "Suresh", "Divya", "Manish"];
     orders.push({
       id: `ORD-${(1000 + i).toString()}`,
+      customerName: dummyNames[Math.floor(Math.random() * dummyNames.length)],
       items: cartItems, subtotal, tax, discount: 0, total: subtotal + tax,
       paymentMethod: (["cash", "upi", "card"] as const)[Math.floor(Math.random() * 3)],
       status: Math.random() > 0.15 ? "completed" : "pending",

@@ -13,6 +13,7 @@ export interface CartItem extends MenuItem {
 
 export interface Order {
   id: string;
+  customerName: string;
   items: CartItem[];
   subtotal: number;
   tax: number;

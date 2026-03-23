@@ -85,6 +85,10 @@ const OrderManagement = () => {
           <div className="w-80 bg-card rounded-xl border border-border p-5 space-y-4 animate-slide-in-right flex-shrink-0 self-start">
             <div className="flex items-center justify-between">
               <h3 className="font-bold text-foreground text-sm">Order {selected.id}</h3>
+            </div>
+            <div className="flex justify-between text-sm mb-1">
+              <span className="text-muted-foreground">Customer</span>
+              <span className="font-medium text-foreground">{selected.customerName}</span>
               <button onClick={() => setSelectedOrderId(null)} className="p-1 rounded-lg hover:bg-secondary text-muted-foreground"><X size={14} /></button>
             </div>
             <div className="space-y-2">

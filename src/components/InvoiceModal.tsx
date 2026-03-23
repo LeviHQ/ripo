@@ -86,9 +86,13 @@ export const InvoiceModal = ({ order, onClose }: InvoiceModalProps) => {
             <p className="text-[11px] text-muted-foreground">GST: 27AABCU9603R1ZM</p>
           </div>
 
-          <div className="flex justify-between text-xs text-muted-foreground mb-3">
+          <div className="flex justify-between text-xs text-muted-foreground mb-1">
             <span>Order: {order.id}</span>
             <span>{new Date(order.timestamp).toLocaleString("en-IN")}</span>
+          </div>
+          <div className="flex justify-between text-xs text-muted-foreground mb-3">
+            <span>Customer:</span>
+            <span className="font-medium text-foreground">{order.customerName}</span>
           </div>
 
           <table className="w-full text-sm mb-3">
